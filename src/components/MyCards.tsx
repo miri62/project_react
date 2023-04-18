@@ -1,7 +1,9 @@
 import { FunctionComponent, useEffect, useState } from "react";
+
+
 import Card from "../interfaces/Card";
 import { getmyCards } from "../services/CardService";
-import DeleteCardModal from "./DeleteCard";
+import DeleteCard from "./DeleteCard";
 import UpdateCardModal from "./UpdateCardModal";
 
 interface MyCardsProps {}
@@ -9,7 +11,7 @@ interface MyCardsProps {}
 const MyCards: FunctionComponent<MyCardsProps> = () => {
   let [cards, setCards] = useState<Card[]>([]);
   let [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
-  let [id, setId] = useState<number>(0);
+  let [id, setId] = useState<string>("");
   let [cardChange, setCardChange] = useState<boolean>(false);
   let [openUpdateModal, setopenUpdateModal] = useState<boolean>(false);
   let refresh = () => {
@@ -18,9 +20,11 @@ const MyCards: FunctionComponent<MyCardsProps> = () => {
 
   useEffect(() => {
     getmyCards()
-      .then((res) => setCards(res.data))
+      .then((res) => {
+        setCards(res.data);
+      })
       .catch((err) => console.log(err));
-  }, [cardChange]);
+  }, [setCardChange]);
 
   return (
     <>
@@ -30,44 +34,55 @@ const MyCards: FunctionComponent<MyCardsProps> = () => {
       >
         My Cards
       </h1>
-
       {cards.length ? (
         <div className="container">
           <div className="row">
             {cards.map((card: Card) => (
               <div
                 key={card.id}
-                className="card ms-4 col-md-4"
-                style={{ width: "18rem" }}
+                className="card ms-4 col-md-4 mt-3"
+                style={{ width: "18rem", height: "25rem" }}
               >
                 <img
                   src={card.image}
                   className="card-img-top"
                   alt={card.name}
-                  style={{ height: "100%" }}
+                  style={{ height: "8rem" }}
                 />
                 <div className="card-body">
-                  <h5 className="card-title text-center">{card.name}</h5>
-                  <p className="card-text text-center">{card.Description}</p>
+                  <h5
+                    className="card-title text-center  "
+                    style={{
+                      fontFamily: "Caveat",
+                      fontSize: "1.5rem",
+                      backgroundColor: "grey",
+                    }}
+                  >
+                    {card.name}
+                  </h5>
+                  <p className="card-text text-center mt-4">
+                    {card.Description}
+                  </p>
                   <p className="card-text text-center">{card.Address}</p>
                   <p className="card-text text-center">{card.phone}</p>
                   <div className="button">
                     <button
-                      className="btn btn-danger"
+                      className="btn btn-danger mx-5 "
                       onClick={() => {
                         setOpenDeleteModal(true);
-                        setId(card.id as number);
+                        setId(card.id as string);
                       }}
                     >
-                      <i className="fa-solid fa-trash"></i>
+                      <i className="fa-solid fa-trash "></i>
                     </button>
                     <button
-                      className="btn btn-warning mx-2"
+                      className="btn btn-warning mr-2   "
                       onClick={() => {
                         setopenUpdateModal(true);
-                        setId(card.id as number);
+                        setId(card.id as string);
                       }}
                     >
+                      {" "}
                       <i className="fa-solid fa-pen-to-square"></i>
                     </button>
                   </div>
@@ -79,7 +94,7 @@ const MyCards: FunctionComponent<MyCardsProps> = () => {
       ) : (
         <p>no</p>
       )}
-      <DeleteCardModal
+      <DeleteCard
         show={openDeleteModal}
         onHide={() => setOpenDeleteModal(false)}
         id={id}

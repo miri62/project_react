@@ -8,12 +8,12 @@ import { newUser } from "../services/UserService";
 
 interface BusinessProps {
   setIsLoggedin: Function;
-  setIsBussines:Function;
+  setIsBussines: Function;
 }
 
 const Business: FunctionComponent<BusinessProps> = ({
-  setIsLoggedin, 
-  setIsBussines
+  setIsLoggedin,
+  setIsBussines,
 }) => {
   let navigate = useNavigate();
   let formik = useFormik({
@@ -26,14 +26,17 @@ const Business: FunctionComponent<BusinessProps> = ({
     onSubmit: (values: User) => {
       newUser({ ...values, isBussines: true })
         .then((res) => {
-          navigate("/");
-          setIsLoggedin(true)
-          setIsBussines(true)
-           sessionStorage.setItem(
-             "userId",
-             JSON.stringify({ userId: res.data[0].id })
-           );
-           successMsg("You registered  successfully");
+          navigate("/about");
+          successMsg("You registered successfully!");
+          setIsLoggedin(true);
+          setIsBussines(true);
+          sessionStorage.setItem(
+            "userDatas",
+            JSON.stringify({
+              isLoggedin: true,
+              token: res.data,
+            })
+          );
         })
         .catch((err) => console.log(err));
     },

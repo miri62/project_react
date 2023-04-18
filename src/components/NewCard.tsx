@@ -27,10 +27,7 @@ const NewCard: FunctionComponent<NewCardProps> = () => {
       image: yup.string().required().min(2),
     }),
     onSubmit: (values: Card) => {
-      values.userId = JSON.parse(
-        sessionStorage.getItem("userId") as string
-      ).userId;
-      createCard(values)
+           createCard(values)
         .then(() => {
           navigate("/my-cards");
           successMsg("Your Card created successfully");

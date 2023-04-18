@@ -1,34 +1,32 @@
 import "./App.css";
-
+import { ToastContainer } from "react-toastify";
 import Home from "./components/Home";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Signin from "./components/Signin";
 import Signup from "./components/Signup";
+import Footer from "./components/Footer";
 import About from "./components/About";
 import Business from "./components/Business";
 import NewCard from "./components/NewCard";
-import { useState } from "react";
 import AllCards from "./components/AllCards";
 import MyCards from "./components/MyCards";
-import { ToastContainer } from "react-toastify";
-import Footer from "./components/Footer";
 import Nav from "./components/Nav";
-
+import { useState } from "react";
 function App() {
   let [isBussines, setIsBussines] = useState<boolean>(false);
   let [isLoggedin, setIsLoggedin] = useState<boolean>(false);
-
   return (
     <>
       <ToastContainer />
-
       <Router>
         <Nav
           isBussines={isBussines}
           isLoggedin={isLoggedin}
           setIsLoggedin={setIsLoggedin}
         />
+
         <Routes>
+          <Route path="/" element={<Home />} />
           <Route
             path="/sign-in"
             element={
@@ -38,10 +36,15 @@ function App() {
               />
             }
           />
-          <Route path="/" element={<Home />} />
+
           <Route
             path="/sign-up"
-            element={<Signup setIsLoggedin={setIsLoggedin} />}
+            element={
+              <Signup
+                setIsLoggedin={setIsLoggedin}
+                setIsBussines={setIsBussines}
+              />
+            }
           />
           <Route path="/about" element={<About />} />
           <Route
@@ -57,7 +60,7 @@ function App() {
           <Route path="/all-cards" element={<AllCards />} />
           <Route path="/my-cards" element={<MyCards />} />
         </Routes>
-        <Footer />
+        <Footer></Footer>
       </Router>
     </>
   );

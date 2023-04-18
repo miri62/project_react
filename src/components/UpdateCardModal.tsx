@@ -5,7 +5,7 @@ import UpdateCard from "./UpdateCard";
 interface UpdateCardMaodlProps {
   show: boolean;
   onHide: Function;
-  id: number;
+  id: string;
   refresh: Function;
 }
 
@@ -26,7 +26,7 @@ const UpdateCardModal: FunctionComponent<UpdateCardMaodlProps> = ({
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            UPDATE CARd
+            UPDATE CARD
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

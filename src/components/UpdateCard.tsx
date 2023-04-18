@@ -1,14 +1,17 @@
 import { useFormik } from "formik";
 import { FunctionComponent, useEffect, useState } from "react";
+
+import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
+
 import Card from "../interfaces/Card";
 import { getCardById, updatecard } from "../services/CardService";
 import { successMsg } from "../services/Feedback";
 
 interface UpdateCardProps {
-  onHide: Function;
-  id: number;
-  refresh: Function;
+    onHide: Function;
+    id: string;
+    refresh: Function;
 }
 
 const UpdateCard: FunctionComponent<UpdateCardProps> = ({
@@ -16,6 +19,7 @@ const UpdateCard: FunctionComponent<UpdateCardProps> = ({
   id,
   refresh,
 }) => {
+  let navigate = useNavigate();
   let [card, setCard] = useState<Card>({
     name: "",
     Description: "0",
@@ -46,7 +50,7 @@ const UpdateCard: FunctionComponent<UpdateCardProps> = ({
       updatecard(id, values)
         .then(() => {
           onHide();
-          successMsg("Card update successfully");
+          successMsg("Card updated successfully!");
           refresh();
         })
         .catch((err) => console.log(err));
@@ -78,8 +82,8 @@ const UpdateCard: FunctionComponent<UpdateCardProps> = ({
                 className="card-title"
                 style={{ fontFamily: "Caveat", fontSize: "3rem" }}
               >
-                {" "}
-                Create new Card{" "}
+                
+                Create new Card
               </h2>
               <form onSubmit={formik.handleSubmit}>
                 <div className="form-floating mb-3 mt-3">

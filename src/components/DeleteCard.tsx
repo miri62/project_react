@@ -6,7 +6,7 @@ import { successMsg } from "../services/Feedback";
 interface DeleteCardProps {
   show: boolean;
   onHide: Function;
-  id: number;
+  id: string;
   refresh: Function;
 }
 
@@ -27,7 +27,7 @@ const DeleteCard: FunctionComponent<DeleteCardProps> = ({
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            DELETE PRODUCT
+            DELETE CARD
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -40,8 +40,8 @@ const DeleteCard: FunctionComponent<DeleteCardProps> = ({
               deleteCard(id)
                 .then(() => {
                   onHide();
+                  successMsg("Card deleted successfully");
                   refresh();
-                  successMsg("Card deleted successfully")
                 })
                 .catch((err) => console.log(err));
             }}

@@ -1,30 +1,16 @@
 import axios from "axios";
 import User from "../interfaces/User";
 
-const api: string = process.env.REACT_APP_API + "/users" || "";
+const api: string = process.env.REACT_APP_API || "";
 
 export function checkUser(user: User) {
-  return axios.get(`${api}?email=${user.email}&password=${user.password}`);
+  return axios.post(`${api}/login`, user);
 }
 
-export function newUser(newUser: User) {
-  return axios.post(api, newUser);
+export function newUser(newtoUser: User) {
+  return axios.post(`${api}/register`, newtoUser);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
+export function User() {
+  return axios.get(`${api}/signin`);
+}

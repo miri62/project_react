@@ -1,16 +1,17 @@
 import { useFormik } from "formik";
 import { FunctionComponent } from "react";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import User from "../interfaces/User";
 import { successMsg } from "../services/Feedback";
 import { newUser } from "../services/UserService";
 interface SignupProps {
-setIsLoggedin:Function;
+  setIsLoggedin: Function;
+  setIsBussines: Function;
 }
-
 const Signup: FunctionComponent<SignupProps> = ({
-  setIsLoggedin 
+  setIsLoggedin,
+  setIsBussines,
 }) => {
   let navigate = useNavigate();
   let formik = useFormik({
@@ -23,13 +24,19 @@ const Signup: FunctionComponent<SignupProps> = ({
     onSubmit: (values: User) => {
       newUser({ ...values, isBussines: false })
         .then((res) => {
-          navigate("/");
-          setIsLoggedin(true)
-           sessionStorage.setItem(
-             "userId",
-             JSON.stringify({ userId: res.data[0].id })
-           );
-           successMsg("You registered successfully");
+          navigate("/about");
+          setIsLoggedin(true);
+          setIsBussines(false);
+          sessionStorage.setItem(
+            "userDatas",
+            JSON.stringify({
+              isLoggedin: true,
+              token: res.data,
+            })
+          );
+          successMsg(
+            `Hello ${res.data.name}, you have successfully registered`
+          );
         })
         .catch((err) => console.log(err));
     },
@@ -95,8 +102,8 @@ const Signup: FunctionComponent<SignupProps> = ({
           <button
             type="submit"
             className="btn btn-success w-100 mt-3"
+            style={{ fontFamily: "Caveat", fontSize: "1.5rem" }}
             disabled={!formik.isValid || !formik.dirty}
-            style={{ fontFamily: "Caveat", fontSize: "2rem" }}
           >
             Sign Up
           </button>
@@ -105,5 +112,4 @@ const Signup: FunctionComponent<SignupProps> = ({
     </>
   );
 };
-
 export default Signup;

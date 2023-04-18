@@ -1,8 +1,7 @@
-export default interface User{
-    id?:number;
-    name?:string;
-    email:string;
-    password:string;
-    isBussines?:boolean;
-   
+export default interface User {
+  id?: string;
+  name?: string;
+  email: string;
+  password: string;
+  isBussines?: boolean;
 }

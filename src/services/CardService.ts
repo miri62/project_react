@@ -1,32 +1,43 @@
 import axios from "axios";
-
-
+import { number } from "yup";
+import DeleteCard from "../components/DeleteCard";
 import Card from "../interfaces/Card";
 
-const api: string = process.env.REACT_APP_API + "/cards" || "";
-  
+const api: string = process.env.REACT_APP_API  || "";
 
+export function createCard(newCard: Card) {
 
-export function createCard(newCard:Card){
-    return axios.post(api,newCard)
+  return axios.post(`${api}/cards`,newCard,{
+     headers: {
+      Authorization: JSON.parse(sessionStorage.getItem("userId") as string)
+        .token
+    },
+  });
 }
 
-export function getAllCards(){
-    return axios.get(api)
+export function getAllCards() {
+  return axios.get(`${api}/cards`, {
+    headers: {
+      Authorization: JSON.parse(sessionStorage.getItem("userId") as string)
+        .token,
+    },
+  });
 }
-export function getmyCards(){
-     let userId: number = JSON.parse(
-    sessionStorage.getItem("userId") as string
-  ).userId;
-    return axios.get(`${api}?userId=${userId}`);
+export function getmyCards() {
+   return axios.get(`${api}/cards`, {
+     headers: {
+       Authorization: JSON.parse(sessionStorage.getItem("userId") as string)
+         .token,
+     },
+   });
 }
-export function deleteCard(id:number){
-    return axios.delete(`${api}/${id}`);
+export function deleteCard(id: string) {
+  return axios.delete(`${api}/${id}`);
 }
-export function updatecard( id: number ,updatecard: Card) {
+export function updatecard(id: string, updatecard: Card) {
   return axios.put(`${api}/${id}`, updatecard);
 }
 
-export function getCardById(id: number) {
+export function getCardById(id: string) {
   return axios.get(`${api}/${id}`);
 }
