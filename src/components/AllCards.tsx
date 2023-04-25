@@ -24,7 +24,7 @@ const AllCards: FunctionComponent<AllCardsProps> = () => {
           <div className="row">
             {cards.map((card: Card) => (
               <div
-                key={card.id}
+                key={card._id}
                 className="card ms-4 col-md-4 mt-3"
                 style={{ width: "18rem" }}
               >

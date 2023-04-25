@@ -1,9 +1,10 @@
 import { useFormik } from "formik";
-import { FunctionComponent, useEffect } from "react";
+import { FunctionComponent } from "react";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import User from "../interfaces/User";
 import { checkUser } from "../services/UserService";
+import jwt_decode from "jwt-decode";
 interface SigninProps {
   setIsBussines: Function;
   setIsLoggedin: Function;
@@ -13,20 +14,17 @@ const Signin: FunctionComponent<SigninProps> = ({
   setIsLoggedin,
 }) => {
   let navigate = useNavigate();
-  useEffect(() => {
-    פענוח טוקן
-  }, []);
+  
   let formik = useFormik({
     initialValues: { email: "", password: "" },
     validationSchema: yup.object({
       email: yup.string().required().email().min(5),
       password: yup.string().required().min(8),
     }),
-   
-    onSubmit: (values: User) => {
-      checkUser(values)
+
+    onSubmit: (user: User) => {
+      checkUser(user)
         .then((res) => {
-          navigate("/about");
           sessionStorage.setItem(
             "userDatas",
             JSON.stringify({
@@ -34,9 +32,10 @@ const Signin: FunctionComponent<SigninProps> = ({
               token: res.data,
             })
           );
-          setIsBussines(res.data.isBussines);
           setIsLoggedin(true);
-          console.log(res.data);
+          const tokenDecoded: { isBussines: boolean } = jwt_decode(res.data);
+          setIsBussines(tokenDecoded.isBussines);
+          navigate("/about");
         })
         .catch((err) => {
           navigate("/");

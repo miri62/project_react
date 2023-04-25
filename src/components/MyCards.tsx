@@ -5,6 +5,7 @@ import Card from "../interfaces/Card";
 import { getmyCards } from "../services/CardService";
 import DeleteCard from "./DeleteCard";
 import UpdateCardModal from "./UpdateCardModal";
+import { profileUser } from "../services/UserService";
 
 interface MyCardsProps {}
 
@@ -14,17 +15,21 @@ const MyCards: FunctionComponent<MyCardsProps> = () => {
   let [id, setId] = useState<string>("");
   let [cardChange, setCardChange] = useState<boolean>(false);
   let [openUpdateModal, setopenUpdateModal] = useState<boolean>(false);
+  let [userId, setuserId] = useState<string>("");
   let refresh = () => {
     setCardChange(!cardChange);
   };
 
   useEffect(() => {
-    getmyCards()
-      .then((res) => {
-        setCards(res.data);
-      })
+    profileUser()
+      .then((res) => setuserId(res.data._id))
       .catch((err) => console.log(err));
-  }, [setCardChange]);
+  }, []);
+  useEffect(() => {
+    getmyCards(userId).then((res) => {
+      setCards(res.data);
+    });
+  }, [userId, cardChange]);
 
   return (
     <>
@@ -39,7 +44,7 @@ const MyCards: FunctionComponent<MyCardsProps> = () => {
           <div className="row">
             {cards.map((card: Card) => (
               <div
-                key={card.id}
+                key={card._id}
                 className="card ms-4 col-md-4 mt-3"
                 style={{ width: "18rem", height: "25rem" }}
               >
@@ -70,7 +75,7 @@ const MyCards: FunctionComponent<MyCardsProps> = () => {
                       className="btn btn-danger mx-5 "
                       onClick={() => {
                         setOpenDeleteModal(true);
-                        setId(card.id as string);
+                        setId(card._id as string);
                       }}
                     >
                       <i className="fa-solid fa-trash "></i>
@@ -79,7 +84,7 @@ const MyCards: FunctionComponent<MyCardsProps> = () => {
                       className="btn btn-warning mr-2   "
                       onClick={() => {
                         setopenUpdateModal(true);
-                        setId(card.id as string);
+                        setId(card._id as string);
                       }}
                     >
                       {" "}

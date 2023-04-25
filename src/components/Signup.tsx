@@ -35,7 +35,7 @@ const Signup: FunctionComponent<SignupProps> = ({
             })
           );
           successMsg(
-            `Hello ${res.data.name}, you have successfully registered`
+            `Hello you have successfully registered`
           );
         })
         .catch((err) => console.log(err));

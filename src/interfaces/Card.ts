@@ -1,5 +1,5 @@
 export default interface Card {
-  id?: string;
+  _id?: string;
   name: string;
   Description: string;
   Address: string;
