@@ -44,10 +44,7 @@ const UpdateCard: FunctionComponent<UpdateCardProps> = ({
       image: yup.string().required().min(2),
     }),
     onSubmit: (values: Card) => {
-      values.userId = JSON.parse(
-        sessionStorage.getItem("userId") as string
-      ).userId;
-      updatecard(id, values)
+            updatecard(id, values)
         .then(() => {
           onHide();
           successMsg("Card updated successfully!");
