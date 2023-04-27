@@ -9,9 +9,9 @@ import { getCardById, updatecard } from "../services/CardService";
 import { successMsg } from "../services/Feedback";
 
 interface UpdateCardProps {
-    onHide: Function;
-    id: string;
-    refresh: Function;
+  onHide: Function;
+  id: string;
+  refresh: Function;
 }
 
 const UpdateCard: FunctionComponent<UpdateCardProps> = ({
@@ -44,7 +44,7 @@ const UpdateCard: FunctionComponent<UpdateCardProps> = ({
       image: yup.string().required().min(2),
     }),
     onSubmit: (values: Card) => {
-            updatecard(id, values)
+      updatecard(id, values)
         .then(() => {
           onHide();
           successMsg("Card updated successfully!");
@@ -79,7 +79,6 @@ const UpdateCard: FunctionComponent<UpdateCardProps> = ({
                 className="card-title"
                 style={{ fontFamily: "Caveat", fontSize: "3rem" }}
               >
-                
                 Create new Card
               </h2>
               <form onSubmit={formik.handleSubmit}>
