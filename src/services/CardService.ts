@@ -1,6 +1,7 @@
 import axios from "axios";
 import Card from "../interfaces/Card";
 const api: string = process.env.REACT_APP_API + "/cards" || "";
+
 export function createCard(newCard: Card) {
   return axios.post(api, newCard, {
     headers: {
@@ -11,6 +12,14 @@ export function createCard(newCard: Card) {
 }
 export function getAllCards() {
   return axios.get(api, {
+    headers: {
+      Authorization: JSON.parse(sessionStorage.getItem("userDatas") as string)
+        .token,
+    },
+  });
+}
+export function getCardById(id: string) {
+  return axios.get(`${api}/cards/${id}`, {
     headers: {
       Authorization: JSON.parse(sessionStorage.getItem("userDatas") as string)
         .token,
@@ -41,6 +50,4 @@ export function updatecard(id: string, updatecard: Card) {
     },
   });
 }
-export function getCardById(id: string) {
-  return axios.get(`${api}/${id}`);
-}
+

@@ -16,14 +16,14 @@ const NewCard: FunctionComponent<NewCardProps> = () => {
       name: "",
       Description: "",
       Address: "",
-      phone: 0,
+      phone: "",
       image: "",
     },
     validationSchema: yup.object({
       name: yup.string().required().min(2),
       Description: yup.string().required().min(2),
       Address: yup.string().required().min(2),
-      phone: yup.number().required().min(8),
+      phone: yup.string().required().min(8),
       image: yup.string().required().min(2),
     }),
     onSubmit: (values: Card) => {
@@ -107,7 +107,7 @@ const NewCard: FunctionComponent<NewCardProps> = () => {
                 </div>
                 <div className="form-floating mb-3">
                   <input
-                    type="phone"
+                    type="text"
                     className="form-control"
                     id="floatingphone"
                     placeholder="Bussines phone"
@@ -121,22 +121,7 @@ const NewCard: FunctionComponent<NewCardProps> = () => {
                     <p className="text-danger">{formik.errors.phone}</p>
                   )}
                 </div>
-                {/* <div className="form-floating mb-3">
-                                <input
-                                    type="string"
-                                    className="form-control"
-                                    id="floatingid"
-                                    placeholder="Bussines id"
-                                    name="id"
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    value={formik.values.id}
-                                />
-                                <label htmlFor="floatingPassword">id</label>
-                                {formik.touched.id && formik.errors.id && (
-                                    <p className="text-danger">{formik.errors.id}</p>
-                                )}
-                            </div> */}
+               
                 <div className="form-floating mb-3">
                   <input
                     type="text"

@@ -22,11 +22,16 @@ const UpdateCard: FunctionComponent<UpdateCardProps> = ({
   let navigate = useNavigate();
   let [card, setCard] = useState<Card>({
     name: "",
-    Description: "0",
+    Description: "",
     Address: "",
-    phone: 0,
+    phone: "",
     image: "",
   });
+  useEffect(() => {
+    getCardById(id)
+      .then((res) => setCard(res.data))
+      .catch((err) => console.log(err));
+  }, []);
   let formik = useFormik({
     initialValues: {
       name: card.name,
@@ -40,7 +45,7 @@ const UpdateCard: FunctionComponent<UpdateCardProps> = ({
       name: yup.string().required().min(2),
       Description: yup.string().required().min(2),
       Address: yup.string().required().min(2),
-      phone: yup.number().required().min(8),
+      phone: yup.string().required().min(8),
       image: yup.string().required().min(2),
     }),
     onSubmit: (values: Card) => {
@@ -53,13 +58,6 @@ const UpdateCard: FunctionComponent<UpdateCardProps> = ({
         .catch((err) => console.log(err));
     },
   });
-
-  useEffect(() => {
-    formik.setFieldValue("phone", "");
-    getCardById(id)
-      .then((res) => setCard(res.data))
-      .catch((err) => console.log(err));
-  }, []);
 
   return (
     <>
@@ -132,7 +130,7 @@ const UpdateCard: FunctionComponent<UpdateCardProps> = ({
                 </div>
                 <div className="form-floating mb-3">
                   <input
-                    type="number"
+                    type="text"
                     className="form-control"
                     id="floatingphone"
                     placeholder="Bussines phone"
